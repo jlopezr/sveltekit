@@ -11,10 +11,8 @@ RUN npm install
 COPY ./src ./src
 COPY ./static ./static
 
-RUN npm run-script build
+RUN npm run build
 
-EXPOSE 5000
+EXPOSE 3000
 
-ENV HOST=0.0.0.0
-
-CMD [ "npm", "start" ]
+CMD [ "npm", "run", "preview" ]

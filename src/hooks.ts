@@ -5,11 +5,11 @@ import type { Handle } from '@sveltejs/kit';
 
 //https://kit.svelte.dev/docs#hooks
 
-const trimCharEnd = (string, charToRemove) => {
-    while (string.charAt(string.length - 1) == charToRemove) {
-        string = string.substring(0, string.length - 1);
-    }
-    return string;
+const trimCharEnd = (string) => {
+	if(string != "/" && string.charAt(string.length - 1) == "/") {
+		string = string.substring(0, string.length - 1);
+	}
+	return string;
 }
 
 const getQueryString = (query) => {
@@ -18,7 +18,7 @@ const getQueryString = (query) => {
 }
 
 const buildLogString = (request, response) => {
-    return [request.method, request.host + trimCharEnd(request.path, '/') + getQueryString(request.query), '=>', response.headers["content-type"], response.status].join(" ");
+    return [request.method, (request.host ? request.host : "") + trimCharEnd(request.path) + getQueryString(request.query), '=>', response.headers["content-type"], response.status].join(" ");
 }
 
 export const handle: Handle = async ({ request, resolve }) => {
