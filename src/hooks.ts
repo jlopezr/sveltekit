@@ -1,6 +1,25 @@
+
 import cookie from 'cookie';
 import { v4 as uuid } from '@lukeed/uuid';
 import type { Handle } from '@sveltejs/kit';
+
+//https://kit.svelte.dev/docs#hooks
+
+const trimCharEnd = (string, charToRemove) => {
+    while (string.charAt(string.length - 1) == charToRemove) {
+        string = string.substring(0, string.length - 1);
+    }
+    return string;
+}
+
+const getQueryString = (query) => {
+    let info = query.toString();
+    return info ? '?' + info : info;
+}
+
+const buildLogString = (request, response) => {
+    return [request.method, request.host + trimCharEnd(request.path, '/') + getQueryString(request.query), '=>', response.headers["content-type"], response.status].join(" ");
+}
 
 export const handle: Handle = async ({ request, resolve }) => {
 	const cookies = cookie.parse(request.headers.cookie || '');
@@ -12,6 +31,8 @@ export const handle: Handle = async ({ request, resolve }) => {
 	}
 
 	const response = await resolve(request);
+
+	console.log(buildLogString(request, response));
 
 	if (!cookies.userid) {
 		// if this is the first time the user has visited this app,

@@ -6,6 +6,18 @@
 				//redirect: "https://mycook.es"
 				redirect: "/popopo"
 			}
+		} else if(page.params["fallback"]=="juan/1") {
+			return {
+				props: {
+					fallback: "SOY EL 1"
+				}
+			};
+		} else if(page.params["fallback"]=="juan/2") {
+			return {
+				props: {
+					fallback: "ME TOCA EL DOS"
+				}
+			};
 		} else {
 			return {
 				props: {
